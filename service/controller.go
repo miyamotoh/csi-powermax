@@ -29,6 +29,8 @@ import (
 
 	pmax "github.com/dell/gopowermax"
 
+	pmax "github.com/dell/gopowermax"
+
 	csiext "github.com/dell/dell-csi-extensions/replication"
 
 	"golang.org/x/net/context"
@@ -983,8 +985,6 @@ func (s *service) createMetroVolume(ctx context.Context, req *csi.CreateVolumeRe
 	// RESET SRP of Protected SG on remote array
 	r2PSG, err := pmaxClient.GetStorageGroup(ctx, remoteSymID, remoteProtectionGroupID)
 	if err != nil {
-		log.Errorf("Failed to fetch remote PSG details: %s\n", err.Error())
-		return nil, status.Errorf(codes.Internal, "Failed to fetch remote PSG details %s", err.Error())
 	}
 	if r2PSG.SRP != "" && r2PSG.SRP != "NONE" {
 		resetSRPPayload := &types.UpdateStorageGroupPayload{
@@ -1035,7 +1035,9 @@ func (s *service) createMetroVolume(ctx context.Context, req *csi.CreateVolumeRe
 	return csiResp, nil
 }
 
-func addReplicationParamsToVolumeAttributes(attributes map[string]string, prefix, remoteSymID, repMode, remoteVolID string) {
+func (s *service) createMetroVolume(ctx context.Context, req *csi.CreateVolumeRequest, reqID, storagePoolID, symID, storageGroupName, serviceLevel, thick, remoteSymID, localRDFGrpNo, remoteRDFGrpNo, remoteServiceLevel, remoteSRPID, namespace, applicationPrefix, bias string) (*csi.CreateVolumeResponse, error) {
+	repMode := Metro
+	accessibility := req.GetAccessibilityRequirements()
 	attributes[path.Join(prefix, RemoteSymIDParam)] = remoteSymID
 	attributes[path.Join(prefix, ReplicationModeParam)] = repMode
 	attributes[path.Join(prefix, RemoteVolumeIDParam)] = remoteVolID

@@ -19,13 +19,24 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"github.com/dell/csi-powermax/k8sutils"
+	"github.com/dell/csi-powermax/provider"
+	"github.com/dell/csi-powermax/service"
+	"github.com/dell/gocsi"
 	"os"
 	"strings"
 
 	"github.com/dell/csi-powermax/v2/k8sutils"
 	"github.com/dell/csi-powermax/v2/provider"
 	"github.com/dell/csi-powermax/v2/service"
+=======
+	"github.com/dell/csi-powermax/k8sutils"
+	"github.com/dell/csi-powermax/provider"
+	"github.com/dell/csi-powermax/service"
+>>>>>>> 0cb1a6b... Release v2.0.0 (#17)
 	"github.com/dell/gocsi"
+	"os"
+	"strings"
 )
 
 // main is ignored when this package is built as a go plug-in

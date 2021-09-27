@@ -11,7 +11,7 @@ require (
 	github.com/cucumber/messages-go/v10 v10.0.3
 	github.com/dell/dell-csi-extensions/replication v1.0.0
 	github.com/dell/gobrick v1.2.0
-	github.com/dell/gocsi v1.4.1-0.20211014153731-e18975a3a38c
+	github.com/dell/gocsi v1.3.1
 	github.com/dell/gofsutil v1.5.0
 	github.com/dell/goiscsi v1.2.0
 	github.com/dell/gopowermax v1.6.0
@@ -23,6 +23,7 @@ require (
 	github.com/sirupsen/logrus v1.6.0
 	github.com/spf13/viper v1.7.1
 	github.com/stretchr/testify v1.7.0
+	golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9
 	golang.org/x/net v0.0.0-20210405180319-a5a99cb37ef4
 	google.golang.org/grpc v1.38.0
 	k8s.io/client-go v0.18.6

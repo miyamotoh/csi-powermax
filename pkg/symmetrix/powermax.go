@@ -78,7 +78,6 @@ func (rep *ReplicationCapabilitiesCache) update(cap *types.SymmetrixCapability) 
 	rep.time.Set(SnapLicenseCacheValidity)
 }
 
-// Get ...
 func (rep *ReplicationCapabilitiesCache) Get(ctx context.Context, client pmax.Pmax, symID string) (*types.SymmetrixCapability, error) {
 	if rep.time.IsValid() {
 		return rep.cap, nil
@@ -107,7 +106,6 @@ type SRPCache struct {
 	time        CacheTime
 }
 
-// Get ...
 func (s *SRPCache) Get(ctx context.Context, client pmax.Pmax, symID string) ([]string, error) {
 	if s.time.IsValid() {
 		return s.identifiers, nil
@@ -137,7 +135,6 @@ type PowerMax struct {
 	repCapabilitiesCache     ReplicationCapabilitiesCache
 }
 
-// GetSRPs ...
 func (p *PowerMax) GetSRPs(ctx context.Context) ([]string, error) {
 	p.lock.Lock()
 	defer p.lock.Unlock()
@@ -220,7 +217,6 @@ func GetPowerMax(symID string) (*PowerMax, error) {
 	return getPowerMax(symID)
 }
 
-// GetPowerMaxClient ...
 func GetPowerMaxClient(primaryArray string, arrays ...string) (pmax.Pmax, error) {
 	primaryPowermax, err := getPowerMax(primaryArray)
 	if err != nil {

@@ -1,5 +1,5 @@
 # Dockerfile to build PowerMax CSI Driver
-FROM docker.io/ppc64le/centos:7
+FROM docker.io/centos:centos8.3.2011
 
 # dependencies, following by cleaning the cache
 RUN yum install -y \

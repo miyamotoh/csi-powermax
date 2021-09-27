@@ -16,6 +16,7 @@ package k8smock
 
 import (
 	"fmt"
+	log "github.com/sirupsen/logrus"
 	"os"
 	"revproxy/v2/pkg/utils"
 	"testing"

@@ -16,6 +16,7 @@ package main
 
 import (
 	"context"
+	log "github.com/sirupsen/logrus"
 	"net/http"
 	"os"
 	"os/signal"
