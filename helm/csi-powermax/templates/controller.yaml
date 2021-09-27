@@ -209,7 +209,7 @@ spec:
           image: {{ required "Must provide the CSI resizer container image." .Values.images.resizer }}
           args:
             - "--csi-address=$(ADDRESS)"
-            - "--timeout=180s"
+            - "--csiTimeout=180s"
             - "--v=5"
             - "--leader-election"
           env:
