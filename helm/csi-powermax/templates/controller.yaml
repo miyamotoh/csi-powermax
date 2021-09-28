@@ -226,7 +226,7 @@ spec:
           imagePullPolicy: {{ .Values.imagePullPolicy }}
           args:
             - "--csi-address=$(ADDRESS)"
-            - "--timeout=180s"
+            - "--csiTimeout=180s"
             - "--v=5"
             - "--leader-election"
           env:

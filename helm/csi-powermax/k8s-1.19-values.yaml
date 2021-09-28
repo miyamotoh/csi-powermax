@@ -20,4 +20,4 @@ images:
 
   # "images.resizer" defines the container images used for the csi resizer
   # container.
-  resizer:  k8s.gcr.io/sig-storage/csi-resizer:v1.2.0
+  resizer: docker.io/ibmcom/ibm-powervc-csi-resizer:1.0.0
