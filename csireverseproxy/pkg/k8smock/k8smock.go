@@ -110,11 +110,6 @@ func (mockUtils *MockUtils) createFile(fileName string, data []byte) error {
 	if err != nil {
 		return err
 	}
-	defer func() {
-		if err := file.Close(); err != nil {
-			log.Errorf("Error closing file: %s\n", err)
-		}
-	}()
 	_, err = file.Write(data)
 	if err != nil {
 		return err
