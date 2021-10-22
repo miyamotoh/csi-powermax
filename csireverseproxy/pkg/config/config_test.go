@@ -16,7 +16,6 @@ package config
 
 import (
 	"fmt"
-	log "github.com/sirupsen/logrus"
 	"os"
 	"revproxy/v2/pkg/common"
 	"revproxy/v2/pkg/k8smock"

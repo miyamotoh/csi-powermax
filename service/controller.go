@@ -29,8 +29,6 @@ import (
 
 	pmax "github.com/dell/gopowermax"
 
-	pmax "github.com/dell/gopowermax"
-
 	csiext "github.com/dell/dell-csi-extensions/replication"
 
 	"golang.org/x/net/context"
