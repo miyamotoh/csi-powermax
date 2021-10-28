@@ -1,5 +1,5 @@
 /*
- Copyright © 2020 Dell Inc. or its subsidiaries. All Rights Reserved.
+ Copyright © 2021 Dell Inc. or its subsidiaries. All Rights Reserved.
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -17,12 +17,13 @@ package config
 import (
 	"crypto/subtle"
 	"fmt"
-	"log"
 	"net/url"
 	"reflect"
-	"revproxy/pkg/common"
-	"revproxy/pkg/k8sutils"
-	"revproxy/pkg/utils"
+	"revproxy/v2/pkg/common"
+	"revproxy/v2/pkg/k8sutils"
+	"revproxy/v2/pkg/utils"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/spf13/viper"
 	corev1 "k8s.io/api/core/v1"
@@ -137,6 +138,8 @@ type StandAloneConfig struct {
 type ProxyConfigMap struct {
 	Mode             ProxyMode         `yaml:"mode,omitempty"`
 	Port             string            `yaml:"port,omitempty"`
+	LogLevel         string            `yaml:"logLevel,omitempty"`
+	LogFormat        string            `yaml:"logFormat,omitempty"`
 	LinkConfig       *LinkConfig       `yaml:"linkConfig,omitempty" mapstructure:"linkConfig"`
 	StandAloneConfig *StandAloneConfig `yaml:"standAloneConfig,omitempty" mapstructure:"standAloneConfig"`
 }
@@ -162,13 +165,14 @@ func (proxy *LinkedProxyConfig) DeepCopy() *LinkedProxyConfig {
 
 // Log - Logs the primary and backup configuration
 func (proxy *LinkedProxyConfig) Log() {
-	fmt.Println("-----------------------")
-	fmt.Println("primary config")
-	fmt.Printf("%+v\n", proxy.Primary)
-	fmt.Println("-----------------------")
-	fmt.Println("backup config")
-	fmt.Printf("%+v\n", proxy.Backup)
-	fmt.Println("-----------------------")
+	log.Debug("-----------------------")
+	log.Debug("-----------------------")
+	log.Debug("primary config")
+	log.Debugf("%+v\n", proxy.Primary)
+	log.Debug("-----------------------")
+	log.Debug("backup config")
+	log.Debugf("%+v\n", proxy.Backup)
+	log.Debug("-----------------------")
 }
 
 // IsCertSecretRelated returns true if a given secret name is present in the LinkedProxyConfig
@@ -449,7 +453,7 @@ func (proxy *StandAloneProxyConfig) UpdateManagementServers(config *StandAlonePr
 // UpdateManagedArrays - updates the set of managed arrays
 func (proxy *StandAloneProxyConfig) UpdateManagedArrays(config *StandAloneProxyConfig) {
 	if !reflect.DeepEqual(proxy.managedArrays, config.managedArrays) {
-		log.Print("Detected changes, updating managed array config")
+		log.Info("Detected changes, updating managed array config")
 		proxy.managedArrays = config.managedArrays
 		proxy.proxyCredentials = config.proxyCredentials
 	}
@@ -461,7 +465,7 @@ func (proxy *StandAloneProxyConfig) GetAuthorizedArrays(username, password strin
 	for _, a := range proxy.managedArrays {
 		isAuth, err := proxy.IsUserAuthorized(username, password, a.StorageArrayIdentifier)
 		if err != nil {
-			log.Printf("error : (%s)", err.Error())
+			log.Errorf("error : (%s)", err.Error())
 		}
 		if isAuth {
 			authorisedArrays = append(authorisedArrays, a.StorageArrayIdentifier)

@@ -1,5 +1,5 @@
 /*
- Copyright © 2020 Dell Inc. or its subsidiaries. All Rights Reserved.
+ Copyright © 2021 Dell Inc. or its subsidiaries. All Rights Reserved.
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -19,8 +19,8 @@ package main
 import "C"
 
 import (
-	"github.com/dell/csi-powermax/provider"
-	"github.com/dell/csi-powermax/service"
+	"github.com/dell/csi-powermax/v2/provider"
+	"github.com/dell/csi-powermax/v2/service"
 )
 
 ////////////////////////////////////////////////////////////////////////////////
