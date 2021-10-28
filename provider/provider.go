@@ -1,5 +1,5 @@
 /*
- Copyright © 2020 Dell Inc. or its subsidiaries. All Rights Reserved.
+ Copyright © 2021 Dell Inc. or its subsidiaries. All Rights Reserved.
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -11,16 +11,18 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 */
+
 package provider
 
 import (
-	"github.com/dell/csi-powermax/service"
-	"github.com/dell/gocsi"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/keepalive"
 	"os"
 	"strconv"
 	"time"
+
+	"github.com/dell/csi-powermax/v2/service"
+	"github.com/dell/gocsi"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/keepalive"
 )
 
 // New returns a new Mock Storage Plug-in Provider.

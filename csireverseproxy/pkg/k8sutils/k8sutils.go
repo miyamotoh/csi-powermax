@@ -1,5 +1,5 @@
 /*
- Copyright © 2020 Dell Inc. or its subsidiaries. All Rights Reserved.
+ Copyright © 2021 Dell Inc. or its subsidiaries. All Rights Reserved.
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"revproxy/pkg/common"
+	"revproxy/v2/pkg/common"
 	"strconv"
 	"time"
 
@@ -212,17 +212,14 @@ func (utils *K8sUtils) createFile(fileName string, data []byte) error {
 	if err != nil {
 		return err
 	}
-	defer func() {
-		if err := file.Close(); err != nil {
-			log.Errorf("failed to close file: %s, error: %s", fileName, err.Error())
-		}
-	}()
 	_, err = file.Write(data)
 	if err != nil {
 		return err
 	}
-	err = file.Sync()
-	return err
+	if err := file.Sync(); err != nil {
+		return err
+	}
+	return file.Close()
 }
 
 // StartInformer -  starts the informer to listen for any events related to secrets
