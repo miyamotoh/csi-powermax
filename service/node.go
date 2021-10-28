@@ -949,6 +949,7 @@ func isValidHostID(hostID string) bool {
 // Do not mix both FC and iSCSI initiators in a single call.
 func (s *service) verifyAndUpdateInitiatorsInADiffHost(ctx context.Context, symID string, nodeInitiators []string, hostID string, pmaxClient pmax.Pmax) ([]string, error) {
 	var validInitiators = make([]string, 0)
+	var errormsg string
 	initList, err := pmaxClient.GetInitiatorList(ctx, symID, "", false, false)
 	if err != nil {
 		log.Warning("Failed to fetch initiator list for the SYM :" + symID)
@@ -973,12 +974,12 @@ func (s *service) verifyAndUpdateInitiatorsInADiffHost(ctx context.Context, symI
 						log.Infof("UpdateHostName processing: %s to %s", initiator.HostID, hostID)
 						_, err := pmaxClient.UpdateHostName(ctx, symID, initiator.HostID, hostID)
 						if err != nil {
-							errormsg := fmt.Sprintf("Failed to change host name from %s to %s: %s", initiator.HostID, hostID, err)
+							errormsg = fmt.Sprintf("Failed to change host name from %s to %s: %s", initiator.HostID, hostID, err)
 							log.Warning(errormsg)
 							continue
 						}
 					} else if initiator.HostID != hostID {
-						errormsg := fmt.Sprintf("initiator: %s is already a part of a different host: %s on: %s",
+						errormsg = fmt.Sprintf("initiator: %s is already a part of a different host: %s on: %s",
 							initiatorID, initiator.HostID, symID)
 						log.Warning(errormsg)
 						continue
@@ -986,8 +987,12 @@ func (s *service) verifyAndUpdateInitiatorsInADiffHost(ctx context.Context, symI
 				}
 				log.Infof("valid initiator: %s\n", initiatorID)
 				validInitiators = appendIfMissing(validInitiators, initiatorID)
+				errormsg = ""
 			}
 		}
+	}
+	if 0 < len(errormsg) {
+		return validInitiators, fmt.Errorf(errormsg)
 	}
 	return validInitiators, nil
 }
