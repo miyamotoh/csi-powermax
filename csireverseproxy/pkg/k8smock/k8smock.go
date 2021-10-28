@@ -17,11 +17,10 @@ package k8smock
 import (
 	"context"
 	"fmt"
-	log "github.com/sirupsen/logrus"
 	"os"
-	"revproxy/pkg/common"
-	"revproxy/pkg/k8sutils"
-	"revproxy/pkg/utils"
+	"revproxy/v2/pkg/common"
+	"revproxy/v2/pkg/k8sutils"
+	"revproxy/v2/pkg/utils"
 	"strconv"
 	"time"
 
@@ -111,17 +110,14 @@ func (mockUtils *MockUtils) createFile(fileName string, data []byte) error {
 	if err != nil {
 		return err
 	}
-	defer func() {
-		if err := file.Close(); err != nil {
-			log.Errorf("Error closing file: %s\n", err)
-		}
-	}()
 	_, err = file.Write(data)
 	if err != nil {
 		return err
 	}
-	err = file.Sync()
-	return err
+	if err := file.Sync(); err != nil {
+		return err
+	}
+	return file.Close()
 }
 
 func (mockUtils *MockUtils) getCredentialFromSecret(secret *corev1.Secret) (*common.Credentials, error) {
